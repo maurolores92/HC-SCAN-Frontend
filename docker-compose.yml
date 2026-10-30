@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  front:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: helpcopies_front
+    restart: unless-stopped
+    ports:
+      - "192.168.0.169:3001:3000"
+    environment:
+      - PORT=3000
+      - NEXT_PUBLIC_API_URL=http://192.168.0.169:5002
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
