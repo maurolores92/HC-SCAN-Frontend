@@ -92,8 +92,10 @@ const VerticalNavHeader = (props: Props) => {
         userNavMenuBranding(props)
       ) : (
         <LinkStyled href='/'>
-          <img src='/images/apple-touch-icon.png' alt='logo' style={{ maxWidth: '30px' }} />
-          <HeaderTitle variant='h4' sx={{ ...menuCollapsedStyles, ...(navCollapsed && !navHover ? {} : { ml: 2.5 }) }}>
+          <Box sx={{ width: 32, height: 32, borderRadius: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'primary.main', color: 'common.white', flexShrink: 0 }}>
+            <Icon icon='tabler:scan' fontSize={20} />
+          </Box>
+          <HeaderTitle variant='h6' sx={{ fontWeight: 800, letterSpacing: '-0.5px', ...menuCollapsedStyles, ...(navCollapsed && !navHover ? {} : { ml: 2.5 }) }}>
             {themeConfig.templateName}
           </HeaderTitle>
         </LinkStyled>

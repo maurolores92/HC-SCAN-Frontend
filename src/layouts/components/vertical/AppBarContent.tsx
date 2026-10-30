@@ -10,6 +10,7 @@ import { Settings } from 'src/@core/context/settingsContext'
 
 // ** Components
 import Autocomplete from 'src/layouts/components/Autocomplete'
+import ModeToggler from 'src/@core/layouts/components/shared-components/ModeToggler'
 import UserDropdown from 'src/@core/layouts/components/shared-components/UserDropdown'
 import NotificationBell from 'src/components/notifications/NotificationBell'
 
@@ -25,7 +26,7 @@ interface Props {
 
 const AppBarContent = (props: Props) => {
   // ** Props
-  const { hidden, settings, toggleNavVisibility } = props
+  const { hidden, settings, saveSettings, toggleNavVisibility } = props
 
   // ** Hook
   const auth = useAuth()
@@ -40,7 +41,8 @@ const AppBarContent = (props: Props) => {
         ) : null}
         {auth.user && <Autocomplete hidden={hidden} settings={settings} />}
       </Box>
-      <Box className='actions-right' sx={{ display: 'flex', alignItems: 'center' }}>
+      <Box className='actions-right' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <ModeToggler settings={settings} saveSettings={saveSettings} />
         {auth.user && (
           <>
             <NotificationBell />

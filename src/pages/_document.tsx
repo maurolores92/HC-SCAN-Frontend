@@ -13,7 +13,7 @@ import { createEmotionCache } from 'src/@core/utils/create-emotion-cache'
 class CustomDocument extends Document {
   render() {
     return (
-      <Html lang='en'>
+      <Html lang='es'>
         <Head>
           <link rel='preconnect' href='https://fonts.googleapis.com' />
           <link rel='preconnect' href='https://fonts.gstatic.com' />
@@ -24,13 +24,43 @@ class CustomDocument extends Document {
           <link rel='apple-touch-icon' sizes='180x180' href='/images/pwa/apple-touch-icon.png' />
           <link rel='shortcut icon' href='/images/favicon.png' />
 
+          {/* SEO & Meta Tags */}
+          <meta
+            name='description'
+            content='HC-SCAN (Helpcopies Scan) - Sistema SaaS multitenant para ingesta inteligente de documentos PDF (Web y FTP), extracción automatizada con IA y consultas avanzadas.'
+          />
+          <meta
+            name='keywords'
+            content='HC-SCAN, Helpcopies Scan, ingesta PDF, inteligencia artificial, OCR documental, multitenancy, sincronización FTP, extracción de datos IA, SaaS empresarial'
+          />
+          <meta name='author' content='HC-SCAN Team' />
+          <meta name='robots' content='index, follow' />
+
+          {/* Open Graph / Facebook */}
+          <meta property='og:type' content='website' />
+          <meta property='og:site_name' content='HC-SCAN' />
+          <meta property='og:title' content='HC-SCAN | Inteligencia Documental & Extracción con IA' />
+          <meta
+            property='og:description'
+            content='Plataforma corporativa multitenant de almacenamiento e ingesta inteligente de documentos PDF con IA.'
+          />
+          <meta property='og:locale' content='es_ES' />
+
+          {/* Twitter Card */}
+          <meta name='twitter:card' content='summary_large_image' />
+          <meta name='twitter:title' content='HC-SCAN | Inteligencia Documental & Extracción con IA' />
+          <meta
+            name='twitter:description'
+            content='Plataforma corporativa multitenant de almacenamiento e ingesta inteligente de documentos PDF con IA.'
+          />
+
           {/* PWA Manifest & Mobile Configuration */}
           <link rel='manifest' href='/manifest.json' />
-          <meta name='theme-color' content='#7367F0' />
-          <meta name='application-name' content='HelpCopies ERP' />
+          <meta name='theme-color' content='#4F46E5' />
+          <meta name='application-name' content='HC-SCAN' />
           <meta name='apple-mobile-web-app-capable' content='yes' />
           <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent' />
-          <meta name='apple-mobile-web-app-title' content='HelpCopies' />
+          <meta name='apple-mobile-web-app-title' content='HC-SCAN' />
           <meta name='format-detection' content='telephone=no' />
           <meta name='mobile-web-app-capable' content='yes' />
         </Head>

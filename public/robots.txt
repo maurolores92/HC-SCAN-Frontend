@@ -1,0 +1,16 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+Allow: /login
+Allow: /forgot-password
+Disallow: /api/
+Disallow: /companies/
+Disallow: /user/
+Disallow: /documents/
+Disallow: /audit/
+Disallow: /roles/
+Disallow: /permissions/
+Disallow: /notifications/
+
+Sitemap: https://hc-scan.com/sitemap.xml
+

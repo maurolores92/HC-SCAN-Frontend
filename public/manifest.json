@@ -1,13 +1,13 @@
 {
-  "name": "HelpCopies ERP",
-  "short_name": "HelpCopies",
-  "description": "Sistema de Gestión y Servicio Técnico HelpCopies",
+  "name": "HC-SCAN - Inteligencia Documental",
+  "short_name": "HC-SCAN",
+  "description": "Sistema SaaS multitenant para ingesta inteligente de documentos PDF y extracción con IA",
   "start_url": "/",
   "id": "/",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#2F3349",
-  "theme_color": "#7367F0",
+  "background_color": "#0F172A",
+  "theme_color": "#4F46E5",
   "categories": ["business", "productivity"],
   "icons": [
     {

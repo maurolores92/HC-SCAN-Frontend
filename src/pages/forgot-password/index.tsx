@@ -3,13 +3,14 @@ import { ReactNode } from 'react'
 
 // ** Next Import
 import Link from 'next/link'
+import Head from 'next/head'
 
 // ** MUI Components
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Box, { BoxProps } from '@mui/material/Box'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { styled, useTheme } from '@mui/material/styles'
+import { styled, useTheme, alpha } from '@mui/material/styles'
 
 // ** Custom Component Import
 import CustomTextField from 'src/@core/components/mui/text-field'
@@ -17,33 +18,42 @@ import CustomTextField from 'src/@core/components/mui/text-field'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
+// ** Contexts
+import { useSettings } from 'src/@core/hooks/useSettings'
+import ModeToggler from 'src/@core/layouts/components/shared-components/ModeToggler'
+
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
-// Styled Components
-const ForgotPasswordIllustration = styled('img')(({ theme }) => ({
-  zIndex: 2,
-  maxHeight: 650,
-  marginTop: theme.spacing(12),
-  marginBottom: theme.spacing(12),
-  [theme.breakpoints.down(1540)]: {
-    maxHeight: 550
-  },
-  [theme.breakpoints.down('lg')]: {
-    maxHeight: 500
-  }
+const HeroWrapper = styled(Box)<BoxProps>(({ theme }) => ({
+  flex: 1,
+  display: 'flex',
+  position: 'relative',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: theme.spacing(8),
+  margin: theme.spacing(4, 0, 4, 4),
+  borderRadius: 24,
+  overflow: 'hidden',
+  background:
+    theme.palette.mode === 'dark'
+      ? `linear-gradient(135deg, ${alpha(theme.palette.primary.dark, 0.55)} 0%, #0F172A 60%, #020617 100%)`
+      : `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.12)} 0%, #F1F5F9 50%, ${alpha(
+          theme.palette.info.light,
+          0.18
+        )} 100%)`,
+  border: `1px solid ${theme.palette.divider}`
 }))
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  padding: theme.spacing(6, 8),
   [theme.breakpoints.up('md')]: {
-    maxWidth: 450
-  },
-  [theme.breakpoints.up('lg')]: {
-    maxWidth: 600
-  },
-  [theme.breakpoints.up('xl')]: {
-    maxWidth: 750
+    maxWidth: 500,
+    padding: theme.spacing(8, 12)
   }
 }))
 
@@ -53,105 +63,120 @@ const LinkStyled = styled(Link)(({ theme }) => ({
   textDecoration: 'none',
   justifyContent: 'center',
   color: theme.palette.primary.main,
-  fontSize: theme.typography.body1.fontSize
+  fontSize: theme.typography.body1.fontSize,
+  fontWeight: 500,
+  '&:hover': { textDecoration: 'underline' }
 }))
 
 const ForgotPassword = () => {
-  // ** Hooks
   const theme = useTheme()
-
-  // ** Vars
-  const hidden = useMediaQuery(theme.breakpoints.down('md'))
+  const { settings, saveSettings } = useSettings()
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
   return (
-    <Box className='content-right' sx={{ backgroundColor: 'background.paper' }}>
-      {!hidden ? (
+    <>
+      <Head>
+        <title>Recuperar Contraseña | HC-SCAN</title>
+        <meta
+          name='description'
+          content='Recupera el acceso a tu cuenta de HC-SCAN con tu correo electrónico.'
+        />
+      </Head>
+
+      <Box
+        sx={{
+          minHeight: '100vh',
+          display: 'flex',
+          backgroundColor: 'background.default',
+          position: 'relative'
+        }}
+      >
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 24,
+            right: 24,
+            zIndex: 10
+          }}
+        >
+          <ModeToggler settings={settings} saveSettings={saveSettings} />
+        </Box>
+
+        {!isMobile && (
+          <HeroWrapper>
+            <Box sx={{ maxWidth: 460, textAlign: 'center' }}>
+              <Box
+                sx={{
+                  width: 64,
+                  height: 64,
+                  borderRadius: '16px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: 'primary.light',
+                  color: 'primary.main',
+                  mb: 4
+                }}
+              >
+                <Icon icon='tabler:key' fontSize={36} />
+              </Box>
+              <Typography variant='h4' sx={{ fontWeight: 800, mb: 2 }}>
+                Seguridad de Cuentas
+              </Typography>
+              <Typography variant='body1' sx={{ color: 'text.secondary' }}>
+                Protegemos la información corporativa de tu organización mediante autenticación cifrada y validación de tokens seguros.
+              </Typography>
+            </Box>
+          </HeroWrapper>
+        )}
+
         <Box
           sx={{
             flex: 1,
             display: 'flex',
-            position: 'relative',
             alignItems: 'center',
-            borderRadius: '20px',
             justifyContent: 'center',
-            backgroundColor: 'customColors.bodyBg',
-            margin: theme => theme.spacing(8, 0, 8, 8)
+            backgroundColor: 'background.paper',
+            p: 4
           }}
         >
-          <ForgotPasswordIllustration
-            alt='forgot-password-illustration'
-            src={`/images/pages/auth-v2-forgot-password-illustration-${theme.palette.mode}.png`}
-          />
-        </Box>
-      ) : null}
-      <RightWrapper>
-        <Box
-          sx={{
-            p: [6, 12],
-            height: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          <Box sx={{ width: '100%', maxWidth: 400 }}>
-            <svg width={34} viewBox='0 0 32 22' fill='none' xmlns='http://www.w3.org/2000/svg'>
-              <path
-                fillRule='evenodd'
-                clipRule='evenodd'
-                fill={theme.palette.primary.main}
-                d='M0.00172773 0V6.85398C0.00172773 6.85398 -0.133178 9.01207 1.98092 10.8388L13.6912 21.9964L19.7809 21.9181L18.8042 9.88248L16.4951 7.17289L9.23799 0H0.00172773Z'
-              />
-              <path
-                fill='#161616'
-                opacity={0.06}
-                fillRule='evenodd'
-                clipRule='evenodd'
-                d='M7.69824 16.4364L12.5199 3.23696L16.5541 7.25596L7.69824 16.4364Z'
-              />
-              <path
-                fill='#161616'
-                opacity={0.06}
-                fillRule='evenodd'
-                clipRule='evenodd'
-                d='M8.07751 15.9175L13.9419 4.63989L16.5849 7.28475L8.07751 15.9175Z'
-              />
-              <path
-                fillRule='evenodd'
-                clipRule='evenodd'
-                fill={theme.palette.primary.main}
-                d='M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z'
-              />
-            </svg>
-            <Box sx={{ my: 6 }}>
-              <Typography sx={{ mb: 1.5, fontWeight: 500, fontSize: '1.625rem', lineHeight: 1.385 }}>
-                Forgot Password? 🔒
+          <RightWrapper>
+            <Box sx={{ mb: 6 }}>
+              <Typography variant='h4' sx={{ mb: 1.5, fontWeight: 700, letterSpacing: '-0.5px' }}>
+                ¿Olvidaste tu contraseña? 🔒
               </Typography>
-              <Typography sx={{ color: 'text.secondary' }}>
-                Enter your email and we&prime;ll send you instructions to reset your password
+              <Typography variant='body2' sx={{ color: 'text.secondary' }}>
+                Ingresa tu correo electrónico registrado y te enviaremos las instrucciones de recuperación.
               </Typography>
             </Box>
+
             <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-              <CustomTextField fullWidth autoFocus type='email' label='Email' sx={{ display: 'flex', mb: 4 }} />
-              <Button fullWidth type='submit' variant='contained' sx={{ mb: 4 }}>
-                Send reset link
+              <CustomTextField
+                fullWidth
+                autoFocus
+                type='email'
+                label='Correo Electrónico'
+                placeholder='tu-email@empresa.com'
+                sx={{ display: 'flex', mb: 4 }}
+              />
+              <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 4, py: 3, borderRadius: 2 }}>
+                Enviar enlace de recuperación
               </Button>
-              <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', '& svg': { mr: 1 } }}>
+              <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <LinkStyled href='/login'>
-                  <Icon fontSize='1.25rem' icon='tabler:chevron-left' />
-                  <span>Back to login</span>
+                  <Icon fontSize='1.25rem' icon='tabler:chevron-left' style={{ marginRight: '0.5rem' }} />
+                  <span>Volver al inicio de sesión</span>
                 </LinkStyled>
               </Typography>
             </form>
-          </Box>
+          </RightWrapper>
         </Box>
-      </RightWrapper>
-    </Box>
+      </Box>
+    </>
   )
 }
 
 ForgotPassword.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
-
 ForgotPassword.guestGuard = true
 
 export default ForgotPassword

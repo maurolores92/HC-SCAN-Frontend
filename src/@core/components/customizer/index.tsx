@@ -176,7 +176,7 @@ const Customizer = () => {
                 <ColorBox
                   onClick={() => handleChange('themeColor', 'primary')}
                   sx={{
-                    backgroundColor: '#7367F0',
+                    backgroundColor: '#4F46E5',
                     ...(themeColor === 'primary'
                       ? { width: 53, height: 53, m: theme => theme.spacing(1.5, 0.75, 0) }
                       : {})
