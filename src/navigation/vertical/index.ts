@@ -15,9 +15,13 @@ const navigation = (): VerticalNavItemsType => {
     },
 
     // ==========================================
-    // 2. GESTIÓN DOCUMENTAL
+    // 2. GESTIÓN DOCUMENTAL (EXCLUSIVO COMPAÑÍAS)
     // ==========================================
-    { sectionTitle: 'GESTIÓN DOCUMENTAL' },
+    {
+      sectionTitle: 'GESTIÓN DOCUMENTAL',
+      action: 'read',
+      subject: 'documents'
+    },
     {
       title: 'Documentos PDF',
       icon: 'tabler:file-text',
@@ -25,10 +29,22 @@ const navigation = (): VerticalNavItemsType => {
       action: 'read',
       subject: 'documents'
     },
+    {
+      title: 'Chat IA Documental',
+      icon: 'tabler:messages',
+      path: '/chat',
+      action: 'read',
+      subject: 'ai_queries'
+    },
 
     // ==========================================
-    // 3. PLATAFORMA (SUPER ADMIN ONLY)
+    // 3. PLATAFORMA (EXCLUSIVO SUPER ADMIN)
     // ==========================================
+    {
+      sectionTitle: 'PLATAFORMA',
+      action: 'manage',
+      subject: 'companies'
+    },
     {
       title: 'Compañías',
       icon: 'tabler:building-community',
@@ -36,37 +52,49 @@ const navigation = (): VerticalNavItemsType => {
       action: 'manage',
       subject: 'companies'
     },
+    {
+      title: 'Planes y Cupos',
+      icon: 'tabler:award',
+      path: '/plans',
+      action: 'manage',
+      subject: 'plans'
+    },
+    {
+      title: 'Permisos Globales',
+      icon: 'tabler:lock',
+      path: '/permissions',
+      action: 'manage',
+      subject: 'permissions'
+    },
+    {
+      title: 'Notificaciones',
+      icon: 'tabler:bell',
+      path: '/notifications',
+      action: 'manage',
+      subject: 'notifications'
+    },
 
     // ==========================================
-    // 4. ADMINISTRACIÓN & SEGURIDAD
+    // 4. ADMINISTRACIÓN DE COMPAÑÍA & AUDITORÍA
     // ==========================================
-    { sectionTitle: 'ADMINISTRACIÓN' },
+    {
+      sectionTitle: 'ADMINISTRACIÓN',
+      action: 'read',
+      subject: 'admin_section'
+    },
     {
       title: 'Usuarios',
       icon: 'tabler:users',
-      path: '/user/list',
+      path: '/user',
       action: 'read',
       subject: 'users'
     },
     {
-      title: 'Roles y Permisos',
+      title: 'Roles',
       icon: 'tabler:shield-lock',
-      children: [
-        {
-          title: 'Roles',
-          icon: 'tabler:user-check',
-          path: '/roles',
-          action: 'read',
-          subject: 'roles'
-        },
-        {
-          title: 'Permisos',
-          icon: 'tabler:lock',
-          path: '/permissions',
-          action: 'read',
-          subject: 'permissions'
-        }
-      ]
+      path: '/roles',
+      action: 'read',
+      subject: 'roles'
     },
     {
       title: 'Auditoría',
@@ -74,18 +102,6 @@ const navigation = (): VerticalNavItemsType => {
       path: '/audit',
       action: 'read',
       subject: 'audits'
-    },
-
-    // ==========================================
-    // 5. COMUNICACIONES
-    // ==========================================
-    { sectionTitle: 'COMUNICACIONES' },
-    {
-      title: 'Notificaciones',
-      icon: 'tabler:bell',
-      path: '/notifications',
-      action: 'read',
-      subject: 'notifications'
     }
   ]
 }

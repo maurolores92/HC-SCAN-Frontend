@@ -5,8 +5,8 @@ const NotificationSettingsPage = () => {
 }
 
 NotificationSettingsPage.acl = {
-  action: 'read',
-  subject: 'notifications',
+  action: 'manage',
+  subject: 'notifications'
 }
 
 export default NotificationSettingsPage

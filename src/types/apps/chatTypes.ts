@@ -30,11 +30,38 @@ export type MsgFeedbackType = {
   isDelivered: boolean
 }
 
+export type ReferencedDocType = {
+  id: number
+  originalName: string
+  documentType?: string
+  confidenceScore?: number
+}
+
+export type DocumentMetadataType = {
+  id: number
+  originalName: string
+  documentType?: string
+  fileSizeBytes?: number
+  createdAt?: string
+  extractedData?: {
+    documentType?: string
+    issuer?: string
+    recipient?: string
+    date?: string
+    totalAmount?: number | string
+    currency?: string
+    items?: any[]
+    [key: string]: any
+  }
+  extractedTextSnippet?: string
+}
+
 export type ChatType = {
   message: string
   senderId: number
   time: Date | string
   feedback: MsgFeedbackType
+  referencedDocuments?: ReferencedDocType[]
 }
 
 export type ChatsObj = {
@@ -53,6 +80,7 @@ export type ContactType = {
   fullName: string
   status: StatusType
   avatarColor?: ThemeColor
+  documentMetadata?: DocumentMetadataType
 }
 
 export type ChatsArrType = {
@@ -64,6 +92,7 @@ export type ChatsArrType = {
   fullName: string
   status: StatusType
   avatarColor?: ThemeColor
+  documentMetadata?: DocumentMetadataType
 }
 
 export type SelectedChatType = null | {
@@ -76,6 +105,8 @@ export type ChatStoreType = {
   contacts: ContactType[] | null
   userProfile: ProfileUserType | null
   selectedChat: SelectedChatType
+  isLoadingAi?: boolean
+  error?: string | null
 }
 
 export type SendMsgParamsType = {
@@ -150,6 +181,7 @@ export type ChatLogType = {
     chat: ChatsObj
     contact: ContactType
     userContact: ProfileUserType
+    isLoadingAi?: boolean
   }
 }
 
@@ -158,12 +190,14 @@ export type MessageType = {
   message: string
   senderId: number
   feedback: MsgFeedbackType
+  referencedDocuments?: ReferencedDocType[]
 }
 
 export type ChatLogChatType = {
   msg: string
   time: string | Date
   feedback: MsgFeedbackType
+  referencedDocuments?: ReferencedDocType[]
 }
 
 export type FormattedChatsType = {

@@ -12,33 +12,42 @@ interface ModuleOption {
   icon: string
 }
 
-const AVAILABLE_MODULES: ModuleOption[] = [
+export const AVAILABLE_TENANT_MODULES: ModuleOption[] = [
   { id: 'documents', name: 'Documentos PDF & FTP', icon: 'tabler:file-text' },
+  { id: 'ai_queries', name: 'Consultas Inteligentes IA', icon: 'tabler:sparkles' },
   { id: 'users', name: 'Usuarios', icon: 'tabler:users' },
-  { id: 'roles', name: 'Roles y Permisos', icon: 'tabler:shield-check' },
-  { id: 'audit', name: 'Auditoría', icon: 'tabler:clipboard-list' },
-  { id: 'notifications', name: 'Notificaciones', icon: 'tabler:bell' }
+  { id: 'roles', name: 'Roles', icon: 'tabler:shield-check' },
+  { id: 'audit', name: 'Auditoría', icon: 'tabler:clipboard-list' }
 ]
 
 interface CompanyModulesSelectorProps {
   control: Control<any>
+  fieldName?: string
+  title?: string
+  subtitle?: string
 }
 
-export const CompanyModulesSelector: React.FC<CompanyModulesSelectorProps> = ({ control }) => {
+export const CompanyModulesSelector: React.FC<CompanyModulesSelectorProps> = ({
+  control,
+  fieldName = 'enabledModules',
+  title = 'Módulos Habilitados',
+  subtitle = 'Seleccione las funcionalidades activas:'
+}) => {
   return (
     <Grid item xs={12}>
       <Typography variant='h6' sx={{ mt: 2, fontWeight: 600 }}>
-        Módulos Habilitados
+        {title}
       </Typography>
       <Typography variant='body2' sx={{ mb: 2, color: 'text.secondary' }}>
-        Seleccione las funcionalidades activas para este cliente tenant:
+        {subtitle}
       </Typography>
 
       <Controller
-        name='enabledModules'
+        name={fieldName}
         control={control}
         render={({ field }) => {
-          const selected = field.value || ['documents', 'users', 'roles', 'audit', 'notifications']
+          const selected: string[] =
+            field.value || ['documents', 'ai_queries', 'users', 'roles', 'audit']
 
           const toggleModule = (modId: string) => {
             if (selected.includes(modId)) {
@@ -52,10 +61,10 @@ export const CompanyModulesSelector: React.FC<CompanyModulesSelectorProps> = ({ 
 
           return (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
-              {AVAILABLE_MODULES.map(mod => {
+              {AVAILABLE_TENANT_MODULES.map(mod => {
                 const isSelected = selected.includes(mod.id)
-                
-return (
+
+                return (
                   <Chip
                     key={mod.id}
                     label={mod.name}

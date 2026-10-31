@@ -41,10 +41,9 @@ const CompanyModulesView: React.FC<CompanyModulesViewProps> = ({ companyId }) =>
         apiPermissions.getAll(),
         apiConnector.get(`/companies/${companyId}/modules`)
       ])
-      
-      const filteredPerms = (perms as any[]).filter(p => p.name !== 'VIEW_COMPANIES')
-      setPermissionsList(filteredPerms)
-      setSelectedPermissionIds(companyModules as number[])
+
+      setPermissionsList((perms as any[]) || [])
+      setSelectedPermissionIds((companyModules as number[]) || [])
     } catch (error) {
       console.error(error)
       toast.error('Error al cargar los módulos')
@@ -74,8 +73,8 @@ const CompanyModulesView: React.FC<CompanyModulesViewProps> = ({ companyId }) =>
       acc[category] = []
     }
     acc[category].push(perm)
-    
-return acc
+
+    return acc
   }, {})
 
   const categories = Object.keys(groupedPermissions)
@@ -85,7 +84,7 @@ return acc
 
     const categoryPerms = groupedPermissions[category].map((p: any) => p.id)
     const allSelected = categoryPerms.every((id: any) => selectedPermissionIds.includes(id))
-    
+
     if (allSelected) {
       setSelectedPermissionIds(selectedPermissionIds.filter(id => !categoryPerms.includes(id)))
     } else {
@@ -104,18 +103,24 @@ return acc
 
   return (
     <Card>
-      <CardHeader 
-        title='Módulos Habilitados' 
-        subheader={isSuperAdmin ? 'Selecciona los módulos a los que esta empresa tendrá acceso.' : 'Módulos actualmente contratados por tu empresa.'}
+      <CardHeader
+        title='Módulos Habilitados'
+        subheader={
+          isSuperAdmin
+            ? 'Selecciona los módulos operativos a los que esta empresa tendrá acceso.'
+            : 'Módulos actualmente contratados por tu empresa.'
+        }
       />
       <CardContent>
         <Grid container spacing={4}>
-          {categories.map((category) => (
+          {categories.map(category => (
             <Grid item xs={12} sm={6} md={4} key={category}>
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={groupedPermissions[category].every((p: any) => selectedPermissionIds.includes(p.id))}
+                    checked={groupedPermissions[category].every((p: any) =>
+                      selectedPermissionIds.includes(p.id)
+                    )}
                     onChange={() => toggleCategory(category)}
                     disabled={!isSuperAdmin}
                   />
@@ -126,7 +131,7 @@ return acc
             </Grid>
           ))}
         </Grid>
-        
+
         {isSuperAdmin && (
           <Box sx={{ mt: 6, display: 'flex', justifyContent: 'flex-end' }}>
             <Button variant='contained' onClick={handleSave} disabled={saving}>

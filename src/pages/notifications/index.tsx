@@ -5,8 +5,8 @@ const NotificationsPage = () => {
 }
 
 NotificationsPage.acl = {
-  action: 'read',
-  subject: 'notifications',
+  action: 'manage',
+  subject: 'notifications'
 }
 
 export default NotificationsPage

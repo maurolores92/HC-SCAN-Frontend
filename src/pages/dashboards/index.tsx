@@ -8,8 +8,9 @@ import CircularProgress from '@mui/material/CircularProgress'
 // ** Auth Hook
 import { useAuth } from 'src/hooks/useAuth'
 
-// ** General Dashboard Component
+// ** Dashboard Components
 import AdminDashboard from 'src/views/apps/dashboards/admin/AdminDashboard'
+import SuperAdminDashboard from 'src/views/apps/dashboards/superadmin/SuperAdminDashboard'
 
 const GeneralDashboardPage = () => {
   const { user, loading } = useAuth()
@@ -22,13 +23,20 @@ const GeneralDashboardPage = () => {
     )
   }
 
+  const isSuperAdmin =
+    user?.role === 'superadmin' ||
+    String(user?.username || '').toLowerCase() === 'superadmin'
+
+  if (isSuperAdmin) {
+    return <SuperAdminDashboard />
+  }
+
   return <AdminDashboard />
 }
 
 GeneralDashboardPage.acl = {
   action: 'read',
-  subject: 'dashboard',
+  subject: 'dashboard'
 }
 
 export default GeneralDashboardPage
-

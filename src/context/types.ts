@@ -6,6 +6,19 @@ export type LoginParams = {
   rememberMe?: boolean
 }
 
+export type UserCompanyInfoType = {
+  id: number
+  name: string
+  slug: string
+  planId?: number | null
+  plan?: {
+    id: number
+    name: string
+    slug: string
+    badgeColor?: string
+  } | null
+}
+
 export type UserDataType = {
   id: number
   role: string
@@ -21,6 +34,7 @@ export type UserDataType = {
   status?: string
   isAdmin?: boolean
   companyId?: number | null
+  company?: string | UserCompanyInfoType | null
   branchId?: number | null
   lastLoginAt?: string | null
   signature?: string | null

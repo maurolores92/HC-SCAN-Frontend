@@ -2,19 +2,13 @@ import React from 'react'
 import Chip, { ChipProps } from '@mui/material/Chip'
 
 export type GenericStatus =
-
-  // Document statuses
   | 'PENDING'
   | 'PROCESSING'
   | 'PROCESSED'
   | 'ERROR'
-
-  // Company statuses
   | 'ACTIVE'
   | 'INACTIVE'
   | 'SUSPENDED'
-
-  // User statuses
   | 'BLOCKED'
   | string
 
@@ -29,21 +23,16 @@ interface StatusConfig {
 }
 
 const STATUS_CONFIGS: Record<string, StatusConfig> = {
-  // Document
   PENDING: { label: 'Pendiente', color: 'warning' },
   PROCESSING: { label: 'Procesando IA', color: 'info' },
   PROCESSED: { label: 'Procesado', color: 'success' },
   ERROR: { label: 'Error', color: 'error' },
-
-  // Company / User
   ACTIVE: { label: 'Activo', color: 'success' },
   INACTIVE: { label: 'Inactivo', color: 'default' },
   SUSPENDED: { label: 'Suspendida', color: 'error' },
   BLOCKED: { label: 'Bloqueado', color: 'error' },
-
-  // Sources
-  APP_UPLOAD: { label: 'Web App', color: 'primary' },
-  FTP: { label: 'Servidor FTP', color: 'secondary' }
+  APP_UPLOAD: { label: 'Subida Web', color: 'primary' },
+  FTP: { label: 'SFTP / Bandeja', color: 'secondary' }
 }
 
 export const StatusChip: React.FC<StatusChipProps> = ({

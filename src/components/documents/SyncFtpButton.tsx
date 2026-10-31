@@ -19,7 +19,7 @@ export const SyncFtpButton: React.FC<SyncFtpButtonProps> = ({
   size = 'medium'
 }) => {
   return (
-    <Tooltip title='Escanear carpeta FTP y registrar nuevos archivos PDF pendientes' arrow>
+    <Tooltip title='Escanear bandeja SFTP / carpeta local inbox y procesar nuevos archivos PDF' arrow>
       <span>
         <LoadingButton
           variant={variant}
@@ -31,7 +31,7 @@ export const SyncFtpButton: React.FC<SyncFtpButtonProps> = ({
           startIcon={<Icon icon='tabler:refresh' />}
           sx={{ textTransform: 'none', fontWeight: 500 }}
         >
-          {loading ? 'Sincronizando FTP...' : 'Sincronizar FTP'}
+          {loading ? 'Sincronizando...' : 'Sincronizar Bandeja / SFTP'}
         </LoadingButton>
       </span>
     </Tooltip>
@@ -39,4 +39,3 @@ export const SyncFtpButton: React.FC<SyncFtpButtonProps> = ({
 }
 
 export default SyncFtpButton
-

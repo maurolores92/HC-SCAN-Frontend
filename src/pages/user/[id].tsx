@@ -1,10 +1,5 @@
-// ** React Imports
-import { useEffect, useState } from 'react'
-
-// ** Next Imports
+import { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-
-// ** MUI Imports
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
@@ -13,14 +8,9 @@ import Tab from '@mui/material/Tab'
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
-
-// ** API
 import apiConnector from 'src/services/api.service'
-
-// ** Types
+import { AbilityContext } from 'src/layouts/components/acl/Can'
 import { UsersType } from 'src/types/apps/userTypes'
-
-// ** Components
 import UserDetailLeft from 'src/views/apps/user/view/UserDetailLeft'
 import ActivityTimeline from 'src/views/apps/profile/ActivityTimeline'
 import UserPermissionsTab from 'src/views/apps/user/view/UserPermissionsTab'
@@ -28,6 +18,8 @@ import UserPermissionsTab from 'src/views/apps/user/view/UserPermissionsTab'
 const UserDetailPage = () => {
   const router = useRouter()
   const { id } = router.query
+  const ability = useContext(AbilityContext)
+  const canEditUser = Boolean(ability?.can('update', 'users'))
 
   const [user, setUser] = useState<UsersType | null>(null)
   const [loading, setLoading] = useState(true)
@@ -67,29 +59,29 @@ const UserDetailPage = () => {
 
   return (
     <Grid container spacing={6}>
-      {/* Panel izquierdo: datos del usuario */}
       <Grid item xs={12} md={4} lg={4}>
         <UserDetailLeft user={user} onUserUpdated={setUser} />
       </Grid>
 
-      {/* Panel derecho: tabs (actividad, permisos) */}
       <Grid item xs={12} md={8} lg={8}>
         <TabContext value={activeTab}>
-          <TabList onChange={(e, newValue) => setActiveTab(newValue)}>
+          <TabList onChange={(_e, newValue) => setActiveTab(newValue)}>
             <Tab value='actividad' label='Actividad' />
-            <Tab value='permisos' label='Excepciones' />
+            {canEditUser && <Tab value='permisos' label='Excepciones' />}
           </TabList>
           <Box sx={{ mt: 4 }}>
             <TabPanel value='actividad' sx={{ p: 0 }}>
               <ActivityTimeline userId={user.id} />
             </TabPanel>
-            <TabPanel value='permisos' sx={{ p: 0 }}>
-              <UserPermissionsTab 
-                userId={user.id} 
-                userDirectPermissions={user.directPermissions || []} 
-                userRolePermissions={user.role?.permissions || []} 
-              />
-            </TabPanel>
+            {canEditUser && (
+              <TabPanel value='permisos' sx={{ p: 0 }}>
+                <UserPermissionsTab
+                  userId={user.id}
+                  userDirectPermissions={user.directPermissions || []}
+                  userRolePermissions={user.role?.permissions || []}
+                />
+              </TabPanel>
+            )}
           </Box>
         </TabContext>
       </Grid>

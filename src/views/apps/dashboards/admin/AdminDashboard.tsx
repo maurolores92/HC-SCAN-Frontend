@@ -10,13 +10,8 @@ import Button from '@mui/material/Button'
 import Icon from 'src/@core/components/icon'
 import apiConnector from 'src/services/api.service'
 import { useAuth } from 'src/hooks/useAuth'
-
-interface DashboardStats {
-  totalDocuments: number
-  pendingDocuments: number
-  processedDocuments: number
-  errorDocuments: number
-}
+import TenantPlanUsageCard from 'src/components/common/TenantPlanUsageCard'
+import AdminStatsCards, { DashboardStats } from './AdminStatsCards'
 
 export const AdminDashboard = () => {
   const { user } = useAuth()
@@ -28,13 +23,14 @@ export const AdminDashboard = () => {
   })
 
   useEffect(() => {
-    // Fetch document stats from /documents endpoint
     apiConnector
       .get<any>('/documents', { limit: 100 })
       .then(res => {
         const items = res?.data || []
         const total = res?.meta?.totalItems ?? items.length
-        const pending = items.filter((d: any) => d.status === 'PENDING' || d.status === 'PROCESSING').length
+        const pending = items.filter(
+          (d: any) => d.status === 'PENDING' || d.status === 'PROCESSING'
+        ).length
         const processed = items.filter((d: any) => d.status === 'PROCESSED').length
         const error = items.filter((d: any) => d.status === 'ERROR').length
 
@@ -45,14 +41,11 @@ export const AdminDashboard = () => {
           errorDocuments: error
         })
       })
-      .catch(() => {
-        // Fallback default state
-      })
+      .catch(() => {})
   }, [])
 
   return (
     <Grid container spacing={6}>
-      {/* Banner de Bienvenida */}
       <Grid item xs={12}>
         <Card
           sx={{
@@ -62,7 +55,15 @@ export const AdminDashboard = () => {
           }}
         >
           <CardContent sx={{ p: { xs: 4, sm: 6 } }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3 }}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: 3
+              }}
+            >
               <Box>
                 <Typography variant='h4' sx={{ color: 'common.white', fontWeight: 700, mb: 1 }}>
                   Bienvenido a HC-SCAN 👋
@@ -92,139 +93,18 @@ export const AdminDashboard = () => {
         </Card>
       </Grid>
 
-      {/* Tarjetas de Métricas */}
-      <Grid item xs={12} sm={6} md={3}>
-        <Card>
-          <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 4 }}>
-            <Box>
-              <Typography variant='caption' sx={{ color: 'text.secondary', fontWeight: 600 }}>
-                TOTAL DOCUMENTOS
-              </Typography>
-              <Typography variant='h4' sx={{ my: 0.5, fontWeight: 700 }}>
-                {stats.totalDocuments}
-              </Typography>
-              <Typography variant='caption' sx={{ color: 'text.disabled' }}>
-                Archivos PDF cargados
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                width: 48,
-                height: 48,
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'primary.light',
-                color: 'primary.main'
-              }}
-            >
-              <Icon icon='tabler:file-text' fontSize={26} />
-            </Box>
-          </CardContent>
-        </Card>
+      <AdminStatsCards stats={stats} />
+
+      <Grid item xs={12}>
+        <TenantPlanUsageCard />
       </Grid>
 
-      <Grid item xs={12} sm={6} md={3}>
-        <Card>
-          <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 4 }}>
-            <Box>
-              <Typography variant='caption' sx={{ color: 'text.secondary', fontWeight: 600 }}>
-                PENDIENTES IA
-              </Typography>
-              <Typography variant='h4' sx={{ my: 0.5, fontWeight: 700 }}>
-                {stats.pendingDocuments}
-              </Typography>
-              <Typography variant='caption' sx={{ color: 'text.disabled' }}>
-                En cola de extracción
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                width: 48,
-                height: 48,
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'warning.light',
-                color: 'warning.main'
-              }}
-            >
-              <Icon icon='tabler:clock' fontSize={26} />
-            </Box>
-          </CardContent>
-        </Card>
-      </Grid>
-
-      <Grid item xs={12} sm={6} md={3}>
-        <Card>
-          <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 4 }}>
-            <Box>
-              <Typography variant='caption' sx={{ color: 'text.secondary', fontWeight: 600 }}>
-                PROCESADOS EXITOSOS
-              </Typography>
-              <Typography variant='h4' sx={{ my: 0.5, fontWeight: 700 }}>
-                {stats.processedDocuments}
-              </Typography>
-              <Typography variant='caption' sx={{ color: 'text.disabled' }}>
-                Con información en BD
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                width: 48,
-                height: 48,
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'success.light',
-                color: 'success.main'
-              }}
-            >
-              <Icon icon='tabler:circle-check' fontSize={26} />
-            </Box>
-          </CardContent>
-        </Card>
-      </Grid>
-
-      <Grid item xs={12} sm={6} md={3}>
-        <Card>
-          <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 4 }}>
-            <Box>
-              <Typography variant='caption' sx={{ color: 'text.secondary', fontWeight: 600 }}>
-                ERRORES DE LECTURA
-              </Typography>
-              <Typography variant='h4' sx={{ my: 0.5, fontWeight: 700 }}>
-                {stats.errorDocuments}
-              </Typography>
-              <Typography variant='caption' sx={{ color: 'text.disabled' }}>
-                Requieren revisión
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                width: 48,
-                height: 48,
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'error.light',
-                color: 'error.main'
-              }}
-            >
-              <Icon icon='tabler:alert-triangle' fontSize={26} />
-            </Box>
-          </CardContent>
-        </Card>
-      </Grid>
-
-      {/* Acciones Rápidas */}
       <Grid item xs={12} md={6}>
         <Card sx={{ height: '100%' }}>
-          <CardHeader title='Canales de Ingesta Documental' subheader='Formatos y accesos directos de subida' />
+          <CardHeader
+            title='Canales de Ingesta Documental'
+            subheader='Formatos y accesos directos de subida'
+          />
           <CardContent>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -247,7 +127,7 @@ export const AdminDashboard = () => {
                     Carga Directa Web (Drag & Drop)
                   </Typography>
                   <Typography variant='caption' sx={{ color: 'text.secondary' }}>
-                    Sube archivos PDF de hasta 25 MB directamente desde el explorador.
+                    Sube archivos PDF validados contra el cupo de almacenamiento de tu plan.
                   </Typography>
                 </Box>
               </Box>
@@ -281,13 +161,23 @@ export const AdminDashboard = () => {
         </Card>
       </Grid>
 
-      {/* Información del Usuario y Multitenant */}
       <Grid item xs={12} md={6}>
         <Card sx={{ height: '100%' }}>
-          <CardHeader title='Información de Sesión' subheader='Aislamiento y contexto actual de la compañía' />
+          <CardHeader
+            title='Información de Sesión'
+            subheader='Aislamiento y contexto actual de la compañía'
+          />
           <CardContent>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: 1, borderColor: 'divider', pb: 1 }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  borderBottom: 1,
+                  borderColor: 'divider',
+                  pb: 1
+                }}
+              >
                 <Typography variant='body2' sx={{ color: 'text.secondary' }}>
                   Usuario:
                 </Typography>
@@ -295,20 +185,40 @@ export const AdminDashboard = () => {
                   {user?.name || user?.username || 'Usuario'}
                 </Typography>
               </Box>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: 1, borderColor: 'divider', pb: 1 }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  borderBottom: 1,
+                  borderColor: 'divider',
+                  pb: 1
+                }}
+              >
                 <Typography variant='body2' sx={{ color: 'text.secondary' }}>
                   Rol Activo:
                 </Typography>
-                <Typography variant='body2' sx={{ fontWeight: 600, textTransform: 'capitalize' }}>
+                <Typography
+                  variant='body2'
+                  sx={{ fontWeight: 600, textTransform: 'capitalize' }}
+                >
                   {user?.role || 'user'}
                 </Typography>
               </Box>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: 1, borderColor: 'divider', pb: 1 }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  borderBottom: 1,
+                  borderColor: 'divider',
+                  pb: 1
+                }}
+              >
                 <Typography variant='body2' sx={{ color: 'text.secondary' }}>
-                  ID Compañía Tenant:
+                  Compañía Tenant:
                 </Typography>
                 <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                  {user?.companyId ? `Compañía #${user.companyId}` : 'Super Administrador (Global)'}
+                  {(typeof user?.company === 'object' ? user?.company?.name : user?.company) ||
+                    (user?.companyId ? `Compañía #${user.companyId}` : 'Super Administrador (Global)')}
                 </Typography>
               </Box>
             </Box>

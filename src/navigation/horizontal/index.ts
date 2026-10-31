@@ -18,36 +18,74 @@ const navigation = (): HorizontalNavItemsType => {
       subject: 'documents'
     },
     {
-      title: 'Compañías',
+      title: 'Chat IA Documental',
+      icon: 'tabler:messages',
+      path: '/chat',
+      action: 'read',
+      subject: 'ai_queries'
+    },
+    {
+      title: 'Plataforma',
       icon: 'tabler:building-community',
-      path: '/companies',
       action: 'manage',
-      subject: 'companies'
+      subject: 'companies',
+      children: [
+        {
+          title: 'Compañías',
+          icon: 'tabler:building-community',
+          path: '/companies',
+          action: 'manage',
+          subject: 'companies'
+        },
+        {
+          title: 'Planes y Cupos',
+          icon: 'tabler:award',
+          path: '/plans',
+          action: 'manage',
+          subject: 'plans'
+        },
+        {
+          title: 'Permisos Globales',
+          icon: 'tabler:lock',
+          path: '/permissions',
+          action: 'manage',
+          subject: 'permissions'
+        },
+        {
+          title: 'Notificaciones',
+          icon: 'tabler:bell',
+          path: '/notifications',
+          action: 'manage',
+          subject: 'notifications'
+        },
+        {
+          title: 'Auditoría Global',
+          icon: 'tabler:clipboard-list',
+          path: '/audit',
+          action: 'manage',
+          subject: 'companies'
+        }
+      ]
     },
     {
       title: 'Administración',
       icon: 'tabler:settings',
+      action: 'read',
+      subject: 'admin_section',
       children: [
         {
           title: 'Usuarios',
           icon: 'tabler:users',
-          path: '/user/list',
+          path: '/user',
           action: 'read',
           subject: 'users'
         },
         {
           title: 'Roles',
-          icon: 'tabler:user-check',
+          icon: 'tabler:shield-lock',
           path: '/roles',
           action: 'read',
           subject: 'roles'
-        },
-        {
-          title: 'Permisos',
-          icon: 'tabler:lock',
-          path: '/permissions',
-          action: 'read',
-          subject: 'permissions'
         },
         {
           title: 'Auditoría',
@@ -57,13 +95,6 @@ const navigation = (): HorizontalNavItemsType => {
           subject: 'audits'
         }
       ]
-    },
-    {
-      title: 'Notificaciones',
-      icon: 'tabler:bell',
-      path: '/notifications',
-      action: 'read',
-      subject: 'notifications'
     }
   ]
 }

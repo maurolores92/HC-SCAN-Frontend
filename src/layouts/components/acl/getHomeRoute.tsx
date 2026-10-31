@@ -1,33 +1,30 @@
 /**
- *  Set Home URL based on User Roles and Permissions
+ * Determina la ruta inicial según el rol y permisos del usuario autenticado.
  */
 const getHomeRoute = (role: string, permissions: string[] = []) => {
   if (role === 'client') return '/acl'
 
-  // Si tiene permiso para ver el Dashboard General, es la página de inicio principal
-  if (permissions.includes('VIEW_DASHBOARD') || role === 'superadmin' || role === 'admin') {
+  if (role === 'superadmin') {
     return '/dashboards'
   }
 
-  // Si no tiene dashboard general pero sí dashboard de Gerente de Soporte
-  if (permissions.includes('VIEW_SUPPORT_MANAGER_DASHBOARD') || role === 'gerente_soporte_tecnico') {
-    return '/dashboards/support-manager'
+  if (
+    permissions.includes('VIEW_DASHBOARD') ||
+    role === 'admin' ||
+    role === 'company_admin'
+  ) {
+    return '/dashboards'
   }
 
-  // Si no tiene dashboard general pero sí dashboard Técnico
-  if (permissions.includes('VIEW_TECHNICIAN_DASHBOARD') || role === 'tecnico') {
-    return '/dashboards/technician'
+  if (permissions.includes('VIEW_DOCUMENTS')) {
+    return '/documents'
   }
 
-  // Fallbacks si no tiene acceso a dashboards
-  if (permissions.includes('VIEW_SERVICE_ORDERS')) {
-    return '/service-orders'
-  }
-  if (permissions.includes('VIEW_CLIENTS')) {
-    return '/clients'
+  if (permissions.includes('VIEW_USERS')) {
+    return '/user'
   }
 
-  return '/dashboards'
+  return '/myprofile'
 }
 
 export default getHomeRoute
