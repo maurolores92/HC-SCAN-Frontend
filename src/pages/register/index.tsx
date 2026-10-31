@@ -483,3 +483,4 @@ RegisterPage.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
 RegisterPage.guestGuard = true
 
 export default RegisterPage
+

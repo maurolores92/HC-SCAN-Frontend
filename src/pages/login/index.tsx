@@ -1,4 +1,4 @@
-// ** React Imports
+﻿// ** React Imports
 import { useState, ReactNode } from 'react'
 
 // ** Next Imports
@@ -461,7 +461,26 @@ const LoginPage = () => {
               </Button>
             </form>
 
-            <Box sx={{ mt: 6, textAlign: 'center' }}>
+            <Box sx={{ mt: 3, textAlign: 'center' }}>
+              <Typography variant='body2' sx={{ color: 'text.secondary' }}>
+                ¿Tu empresa aún no tiene cuenta?{' '}
+                <Typography
+                  component={Link}
+                  href='/register'
+                  variant='body2'
+                  sx={{
+                    color: 'primary.main',
+                    fontWeight: 600,
+                    textDecoration: 'none',
+                    '&:hover': { textDecoration: 'underline' }
+                  }}
+                >
+                  Probar 6 días gratis
+                </Typography>
+              </Typography>
+            </Box>
+
+            <Box sx={{ mt: 4, textAlign: 'center' }}>
               <Typography variant='caption' sx={{ color: 'text.disabled' }}>
                 HC-SCAN © {new Date().getFullYear()} • Plataforma SaaS Multitenant
               </Typography>
